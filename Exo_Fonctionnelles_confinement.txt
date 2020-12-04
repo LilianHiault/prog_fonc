@@ -1,0 +1,88 @@
+Exercices Fonctionnelles Part 1: 
+
+1/ Programmer le tri par insertion (tri_ins L apres) 
+L est la collection d'objets à trier dans l'ordre croissant.
+apres est une fonction de comparaison prenant 2 argument et retourne vrai si le 1er argument doit etre apres le second dans l'ordre de tri.
+
+trier des nombres
+trier des noms
+trier des personnes (prenom age  taille) selon la taille
+
+2/ Ecrire (comp f g)
+retourne la fonction f o g.
+
+3/ Ecrire (derive f)
+pour un h petit 
+                                   f(x+h)-f(x-h)
+  f ' :  x →  env.=      -------------------
+                                              2h
+Calculer 
+une approximation de la derivée de log au point 3
+une approximation de la derivée de (sin x) au point pi/2
+calculer des approximations de la derivee de (sin x) pour PI/4 PI/3 PI/2 PI 3PI/4
+
+
+4/ (Puisque derive depend de h) 
+on peut 
+- ecrire (derive f h) : x → env. (f' x)
+on peut aussi 
+- ecrire une fonction (tx h) qui retourne un taux d'accroissement pour un h donné 
+     c'est à dire une fonction qui prend f et fournit f' pour ce h. 
+
+calculer les approximations de (sin x) au point 2 pour 
+                  h =  0.1;0.01;0.001;0.0001;0.0001;0.00001
+faire la meme chose pour (carre x) ; (sqrt x)
+
+[on aurait aussi pu ecrire (tacc f) retournant une fonction qui prend h en parametre et retourne le taux d'accroissement de f pour h . Cad une fonction 
+                    f(x+h)-f(x-h)
+  : x →       -------------------      ]
+                                2h
+
+5/ Ecrire a l'aide de map
+racine carre des nombres
+carre des nombres
+ecrire (zip L1 L2) 
+ajouter 3 a chaque nombre
+multiplier les nombres par un meme nombre x parametre du programme
+
+6/ (sup L x) retourne la liste des termes de L supérieurs à x
+
+7/ Nous souhaitons calculer la trace d'une matrice carrée A c'est à dire la somme de ses éléments diagonaux.
+
+7.1 Donner un algorithme général.
+
+7.2 On représente une matrice carrée nxn par une liste de n sous listes contenant chacune n valeurs numériques représentant les lignes.
+  Ecrire la fonction trace telle que l'évaluation de  (trace M) retourne la trace de la matrice M.
+
+8/ Ecrire une fonction P ayant comme argument une liste E représentant un ensemble et telle que l'évaluation (P E) retourne une liste de sous listes représentant l'ensemble des parties de E. Chaque sous liste représentant une partie de E.
+par exemple, (P '(1 2 3) )
+doit retourner  
+                      (() (1) (2) (3) (1 2) (1 3) (2 3) (1 2 3))
+ou tout autre liste contenant les memes éléments dans un ordre différent.
+   
+8.1 Que retourne (P '(2 3))
+8.2 Que retourne (P '(3))
+8.3 Proposer un algorithme pour passer à l'aide de la valeur 2 de la valeur de (P '(3)) à la valeur de (P '(2 3))
+8.4 Est-ce qu'il permet d'obtenir  (P '(1 2 3) )  à partir de  (P '(2 3)) à l'aide de 1
+8.5 Que doit valoir (P '()) pour pouvoir appliquer l'algorithme et obtenir (P '(3)) 
+8.6 Ecrire la fonction P .
+
+
+9/ Ecrire la fonction PC qui a 2 arguments, l'ensemble E et un entier n et qui retourne une liste contenant, sous  forme de sous-listes, l'ensemble des n-uplets de E.
+Exemple : 
+     (PC '(0 1) 3) retourne : 
+((0 0 0) (0 0 1) (0 1 0) (0 1 1) (1 0 0) (1 0 1) (1 1 0) (1 1 1))
+
+9.1 : Que vaut (PC '(1) 3) 
+        Que vaut (PC '(0 1) 2)
+        Que vaut (PC '(0 1) 1)
+
+9.2  Proposer un algorithme pour passer de  (PC '(0 1) 1) à  (PC '(0 1) 2)
+
+9.3 Cet algorithme permet-il d'obtenir (PC '(0 1) 3) à partir de la valeur de  (PC '(0 1) 2) ?
+
+9.4 Que doit valoir (PC '(0 1) 0) pour obtenir (PC '(0 1) 1) en appliquant votre algorithme ?
+
+9.5 Ecrire la fonction PC.
+
+

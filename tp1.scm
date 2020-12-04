@@ -315,7 +315,7 @@
 ;; 1. Racines carrées des éléments d'une liste
 ;; 2. La liste des carrés des nombres
 ;; 3. Multiier chaque élément de L par 3
-;; Ajouter x un argument d'un programme à chaque élément de L (addL x L)
+;; 4. Ajouter x un argument d'un programme à chaque élément de L (addL x L)
 ;; 5. Retourner la liste des éléments divisés par 3
 
 ;; FAIRE à -> 14
@@ -328,3 +328,38 @@
 ;; tri_ins
 ;; fri_sel
     
+
+;; 1.
+(mapkar sqrt '(1 4 9 16 25))
+;; 2.
+(mapkar carre '(1 2 3 4 5 6))
+
+;; 3.
+(mapkar (lambda (x) (* 3 x)) '(1 2 3 4))
+
+(define (mpar L x)
+  ;; multiplier chacun des éléments de L par x
+  (mapkar (lambda (y)
+	    (* y x))
+	  L))
+;; Une fonction qui prend en arg un objet de L et multiplie par x
+
+((lambda(y)
+   (if (even? y) y #f))
+ 3)
+      
+
+
+;; Composé
+(define compose
+  (lambda (f g x)
+    (f (g x))))
+(compose carre sqrt 5)
+
+;; Dérivé
+(define derive
+  (let ((h 0.0001))
+  (lambda (f x)
+          (/ (- (f (+ x h)) (f (- x h)) ) (* 2 h))
+      )))
+(derive carre 8)
