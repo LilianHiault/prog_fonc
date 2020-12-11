@@ -141,3 +141,84 @@ fic
 
 (sup '( 126 4  1 4 94 2 04 48 47 2) 12)
 
+
+;; 7
+;; ( (1 2 3)
+;;   (4 5 6)
+;;   (7 8 9) )
+
+;; ((1 2 3) (4 5 6) (7 8 9)) => trace =>  1+5+9 = 15
+
+;; () => ?
+;; ((x)) => x
+;; ((1 2 3) (4 5 6) (7 8 9)) => 1 + (trace ((5 6) (8 9)) )
+
+(define traceMat
+  (lambda (L)
+    (if (null? L)
+	0
+	(+ (caar L)
+	 (traceMat (map cdr (cdr L)))
+	 ))))
+
+(trace traceMat)
+(traceMat '((1 2 3) (4 5 6) (7 8 9)))
+
+;; 8
+;; (P '( 2 3)) => (() (2) (3) (2 3))
+;; (P '(3)) => (() (3))
+;; (P '(2 3)) => (P '(3)) concat (P '(2)) concat '(2 3)
+;; (P '()) => (())
+
+;; P(1 2 3) => () + (1) + (1 2 3) + P(2 3)
+
+(define ajouterssliste
+  (lambda (L)
+    (if (null? L)
+	()
+	(cons (cons 1 (car L))
+	      (ajouterssliste (cdr L))))))
+(define ajouterssliste
+  (lambda (L)
+    (map (lambda (x)
+	   (cons 1 x))
+	 L)))
+
+(define P
+  (lambda (L)
+    (if (null? L)
+	'(())
+	(let  ((Resinf (P (cdr L))))
+	  (append
+	   Resinf
+	   (map (lambda (x)
+		  (cons (car L) x))
+		Resinf))))))
+(trace P)
+(P '(1 2 3))
+
+
+;; 9
+
+;; 9.0 : (card E)^n
+;; (PC '(1) 3) => ((1 1 1))
+;; (PC '(0 1) 2) => ((0 0) (0 1) (1 0) (1 1))
+;; (PC '(0 1) 1) => ((0) (1))
+
+;; Pour chaque sous liste on l'append à chacune des sous liste de taille n-1
+
+(define PC
+  (lambda (L n)
+    (if (zero? n)
+	'(())
+	(let ((res (PC L (- n 1)) ))
+	  ;; res est une liste qui contient des listes
+	  (append-map
+	   (lambda (x)
+	     (map
+	      (lambda (y)
+		(cons x y))
+	      res))
+	   L)))))
+
+(PC '(0 1) 3)
