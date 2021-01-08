@@ -4,6 +4,15 @@
 
 ;; EXERCICE 1
 
+(define existe?
+  (lambda (L P)
+    (if (null? L)
+	#f
+	(or (P (car L))
+	    (existe? (cdr L) P))
+	)
+    ))
+
 ;; 1.1.a
 ;; tous-egaux
 ;; () => #t
@@ -45,8 +54,22 @@
 
 ;; 1.2
 ;; (tous_diff)
-;; Idem : faux si un seul couple (car L) = (cdr L) ou () ou (a)
-;;        vrai sinon
+;; Il n'existe pas dans (cdr L) d'objet égal à (car L)
+;; et (tous_diff (cdr L))
+
+(define tous_diff
+  (lambda (L)
+    (cond ((null? L) #t)
+	  ((null? (cdr L)) #t)
+	  (else (and
+		 (not (member (car L) (cdr L)))
+		 (tous_diff (cdr L))))
+    ) ))
+
+(tous_diff '(1 2 3))
+(tous_diff '(1 2 3 2))
+
+(trace tous_diff)
 
 
 ;; EXERCICE 2
@@ -58,15 +81,66 @@
 ;; n   => f(nieme(f B (n-1)))
 
 (define nieme
-  (lambda (f B n)
-    (if (= n 0)
+  (lambda (f B n n0)
+    (if (= n n0)
 	B
-	(f (nieme f B (- n 1)))
+	(f (nieme f B (- n 1) n0) n)
 	)
     ))
 
 (trace nieme)
-(nieme (lambda (n) (+ n 1)) 5 10)
+(nieme (lambda (x n) (+ x n)) 1 10 0)
+
+(define somme_entier
+  (lambda (n)
+    (nieme + 0 n 0)))
+
+(somme_entier 10)
+
+(nieme (lambda (un-1 n)
+	 (+ un-1 (* n n)))
+       0 10 0)
+
+(define fact
+  (lambda (n)
+    (nieme * 1 n 0)))
+(fact 5)
+
+(define fibo
+  (lambda (m)
+    (nieme (lambda (Xn-1 n)
+	     (list (+ (car Xn-1)
+		      (cadr Xn-1))
+		   (car Xn-1)))
+	   '(1 0)
+	   m
+	   0)))
+(fibo 5)
+
+;; EXERCICE 3
+
+;; 3.1
+;; R est reflexive si pour tt x dans E xRx
+
+(define qqs
+  (lambda (L P)
+    (if (null? L)
+	#t
+	(and (P (car L))
+	     (qqs (cdr L))))))
+
+(define reflexive
+  (lambda (R E)
+    (qqs E (lambda (x)
+	     (R x x)))
+    ))
+
+(define symetrique
+  (lambda (R E)
+    (qqs E (lambda (x)
+	     (qqs E (lambda (y)
+		      (or (not (R x y))
+			  (R y x))))))))
 
 ;; EXERCICE 6
 
@@ -92,6 +166,51 @@
 (traceMat '((1 2 3)
 	    (4 5 6)
 	    (7 8 9)) )
+
+;; 6.2
+
+(define transp
+  (lambda (M)
+    (if (or (null? M)
+	    (null? (car M)))
+	()
+	(cons (map car M)
+	      (transp (map cdr M)))
+	) ))
+
+(transp '((1 2 3)
+	  (4 5 6)
+	  (7 8 9)) )
+
+;; 6.3
+;; MV = mat M * vect V
+
+(define PS
+  (lambda (V W)
+    ;; Produit scalaire entre V et W
+    (apply + (map * V W))
+    ))
+
+(define MV
+  (lambda (M V)
+    (map (lambda (L)
+	   (PS L V))
+	 M)
+    ))
+
+(MV '((1 2 3)
+      (4 5 6)
+      (7 8 9)) '(1 1 0) )
+
+;; 6.4
+;; AL : Application linéaire
+
+(define AL
+  (lambda (M)
+    (lambda (V)
+      (MV M V)
+      ) ))
+
 
 ;; EXERCICE 9
 
